@@ -30,9 +30,7 @@ public class LoginTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of loginUser method, of class Login.
-     */
+   
     @Test
     public void testLoginUser() {
         System.out.println("loginUser");
