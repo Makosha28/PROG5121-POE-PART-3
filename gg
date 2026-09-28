@@ -1,106 +1,112 @@
-System.out.println("---------------------------------------------------------------"); 
+public interface IConsoles {
+    String getConsoleType();
+    String getStore();
+    int getTotalSales();
+}
+public abstract class Consoles implements IConsoles {
 
-        System.out.println("GAMING CONSOLE REPORT"); 
+    // Instance variables
+    private String consoleType;
+    private String storeName;
+    private int totalSales;
 
-        System.out.println("---------------------------------------------------------------"); 
+    // Constructor
+    public Consoles(String consoleType, String storeName, int totalSales) {
+        this.consoleType = consoleType;
+        this.storeName = storeName;
+        this.totalSales = totalSales;
+    }
 
-        System.out.printf("%-20s%10s%10s%10s%n", "", "PS5", "XBOX", "SWITCH"); 
+    // Getter methods required by the interface
+    @Override
+    public String getConsoleType() {
+        return consoleType;
+    }
 
-        System.out.println("---------------------------------------------------------------"); 
+    @Override
+    public String getStore() {
+        return storeName;
+    }
 
- 
+    @Override
+    public int getTotalSales() {
+        return totalSales;
+    }
+}
+public class ConsoleSales extends Consoles {
 
-        // Display the sales data for each city 
+    // Constructor
+    public ConsoleSales(String consoleType, String storeName, int totalSales) {
+        super(consoleType, storeName, totalSales);
+    }
 
-        for (int i = 0; i < cities.length; i++) { 
+    // Method that prints the report
+    public void printReport() {
+        System.out.println("==========================================");
+        System.out.println("          CONSOLE SALES REPORT");
+        System.out.println("==========================================");
+        System.out.println("Console Type   : " + getConsoleType());
+        System.out.println("Store Name     : " + getStore());
+        System.out.println("Total Sales    : " + getTotalSales());
+        System.out.println("==========================================");
+    }
+}
+import java.util.Scanner;
 
-            System.out.printf("%-20s%10d%10d%10d%n", 
+public class RunApplication {
 
-                    cities[i], sales[i][0], sales[i][1], sales[i][2]); 
+    public static void main(String[] args) {
 
-        } 
+        Scanner input = new Scanner(System.in);
 
- 
+        // Allow user to select / enter console type
+        System.out.println("===== ELECTRONICS STORE CONSOLE SALES =====");
+        System.out.println("Select a console device type:");
+        System.out.println("1. PS5");
+        System.out.println("2. XBOX");
+        System.out.println("3. NINTENDO SWITCH");
+        System.out.println("4. Other");
+        System.out.print("Enter your choice (1-4): ");
+        int choice = input.nextInt();
+        input.nextLine(); // clear the buffer
 
-        System.out.println("---------------------------------------------------------------"); 
+        String consoleType;
 
-        System.out.println("CONSOLE SALES TOTALS FOR EACH CITY"); 
+        switch (choice) {
+            case 1:
+                consoleType = "PS5";
+                break;
+            case 2:
+                consoleType = "XBOX";
+                break;
+            case 3:
+                consoleType = "NINTENDO SWITCH";
+                break;
+            case 4:
+                System.out.print("Enter console type: ");
+                consoleType = input.nextLine();
+                break;
+            default:
+                consoleType = "Unknown";
+                System.out.println("Invalid choice. Defaulting to Unknown.");
+        }
 
-        System.out.println("---------------------------------------------------------------"); 
+        // Enter store name
+        System.out.print("Enter store name: ");
+        String storeName = input.nextLine();
 
- 
+        // Enter total sales amount
+        System.out.print("Enter total amount of sales: ");
+        int totalSales = input.nextInt();
 
-        // Calculate and display total sales for each city 
+        // Create object of ConsoleSales
+        ConsoleSales sales = new ConsoleSales(consoleType, storeName, totalSales);
 
-        int[] cityTotals = new int[cities.length]; 
+        // Display the report
+        System.out.println();
+        sales.printReport();
 
-        int maxTotal = 0; 
-
-        int maxIndex = 0; 
-
- 
-
-        for (int i = 0; i < cities.length; i++) { 
-
-            int total = 0; 
-
-            for (int j = 0; j < sales[i].length; j++) { 
-
-                total += sales[i][j]; 
-
-            } 
-
-            cityTotals[i] = total; 
-
- 
-
-            System.out.printf("%-20s : %d%n", cities[i], total); 
-
- 
-
-            // Track the city with the highest sales 
-
-            if (total > maxTotal) { 
-
-                maxTotal = total; 
-
-                maxIndex = i; 
-
-            } 
-
-        } 
-
- 
-
-        System.out.println("---------------------------------------------------------------"); 
-
-        System.out.println("CITY WITH THE MOST GAMING CONSOLE SALES"); 
-
-        System.out.println("---------------------------------------------------------------"); 
-
-        System.out.printf("%s with a total of %d sales%n", cities[maxIndex], maxTotal); 
-
-        System.out.println("---------------------------------------------------------------"); 
-
-    } 
-
-} 
----------------------------------------------------------------
-GAMING CONSOLE REPORT
----------------------------------------------------------------
-                          PS5      XBOX    SWITCH
----------------------------------------------------------------
-CAPE TOWN                1000      2000      3000
-PORT ELIZABETH           2000      3000      4000
-PRETORIA                 1500      1100      1200
----------------------------------------------------------------
-CONSOLE SALES TOTALS FOR EACH CITY
----------------------------------------------------------------
-CAPE TOWN            : 6000
-PORT ELIZABETH       : 9000
-PRETORIA             : 3800
----------------------------------------------------------------
-CITY WITH THE MOST GAMING CONSOLE SALES
----------------------------------------------------------------
-PORT ELIZABETH with a total of 9000 sales
----------------------------------------------------------------
+        input.close();
+    }
+}
+--------------------------------------------------
